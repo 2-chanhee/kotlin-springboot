@@ -1,5 +1,6 @@
 package com.example.mvc.controller.get.model.http
 
+import com.example.mvc.annotation.StringFormatDateTime
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
@@ -32,22 +33,11 @@ data class UserRequest(
     @field:Pattern(regexp = "") // 정규식
     var phoneNumber: String?=null, // phone_number
 
+    @field:StringFormatDateTime(pattern = "yyyy-MM-dd HH:mm:ss", message = "패턴 틀림")
     var createdAt: String?=null // yyyy-mm-dd hh:mm:ss
     
 //    @JsonProperty("phone_number") // 요청 시 이 프로퍼티명으로 할것이라는 것을 명시
 //    var phoneNumber: String?=null // phone_number
 ){
-    @AssertTrue(message = "생성일자의 패턴이 맞지 않습니다.")
-    // validation이 일어날때 아래 함수 실행
-    private  fun isValidCreatedAt(): Boolean {
-        return try{
-            LocalDateTime.parse(this.createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            true
-        }catch (
-            e:Exception
-        ){
-            false
-        }
-    }
 }
 
